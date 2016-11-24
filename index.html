@@ -1,50 +1,213 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>How-to-estimate-pi-by-buffon-needle-experiment by RishiBawdekar</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">How-to-estimate-pi-by-buffon-needle-experiment</h1>
-      <h2 class="project-tagline"></h2>
-      <a href="https://github.com/RishiBawdekar/how-to-estimate-pi-by-buffon-needle-experiment" class="btn">View on GitHub</a>
-      <a href="https://github.com/RishiBawdekar/how-to-estimate-pi-by-buffon-needle-experiment/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/RishiBawdekar/how-to-estimate-pi-by-buffon-needle-experiment/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
 
-    <section class="main-content">
-      <p>In 1777, French mathematician Georges-Louis Leclerc, later Comte de Buffon (born on 7th September 1707) asked the following question:</p>
+<head>
 
-<p>Suppose you drop a short needle on a ruled paper – what is the probability that the needle comes to lie in a position where it crosses one of the lines?</p>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<link rel="shortcut icon" type="image/png" href="favicon.png">
+	<title>[DEMO]How to estimate π by using Buffon's needle experiment? by Rishi Bawdekar</title>
 
-<p>Probability (p) : (2 / π) * (l / d)</p>
+</head>
 
-<p>A short needle is a needle whose length (l) is smaller than the distance between two parallel lines on the ruler (d). The probability depends on the ratio – l / d. Since the length is smaller than the distance, the needle will cross only one line on the ruler.</p>
+<body>
 
-<p>So, if I drop N needles and C out of them cross a line, my probability is C / N. Replacing and re-structuring the above equation we get:</p>
+    <div id="overlay"></div>
+	<div id="popup">
+		<div class="popupcontent">
+			<h1 id="heading">How to play?</h1>
+			<iframe id="ivideo" width="560" height="315" src="https://www.youtube.com/embed/d_OcLFZx9c4" frameborder="0" allowfullscreen></iframe>
+			<br>
+			<p id="op">You can press <i>Estimate PI</i> or press <i>Enter</i> to start simulation.</p>
+			<br>
+			<button type="button" id="butclose" onclick="CloseOverLay()">Got it!</button>
+		</div>
+	</div>
 
-<p>π = 2 * (l / d) * (N / C)</p>
+    <div id="top">
+		<form id="form1" style="display:inline">
+			 <select id = "trials" onkeypress="return searchKeyPress(event);">
+				 <option value=0>      Select number of pins....</option>
+				 <option value=10>     10  </option>
+				 <option value=100>    100  </option>
+				 <option value=1000>   1000  </option>
+				 <option value=10000>  10000   </option>
+			 </select>
+			 <label id="label1"> Enter length of pin: <input type="text" id="pinlen" placeholder="length not more than 50"/></label>
+			 <button type="button" id="begexp" onclick="BeginExperiment()">Estimate PI</button>
+		 </form>
+	</div>
+	
+	<div id="bottom">
+	
+	<div id="botleft">
+		<br></br>
+		<canvas id="buffoncanvas" width="300" height="300" style="border:1px solid #d3d3d3;"></canvas>
+		<br></br>
+		<div id="pins">Total number of pins: </div>
+		<br>
+		<div id="calpie">Calculated value of pi: </div>
+		<br>
+		<div id="Pi">Exact value of pi: </div>
+		<br>
+		<div id="perer">Percentage error: </div>
+		<br>
+		<div id="lByd">(l / d) ratio:  </div>
+	</div>
+	
+	<div id="botRig">
+		<br></br>
+		<p>
+		In 1777, French mathematician Georges-Louis Leclerc, later Comte de Buffon (born on 7th September 1707) asked the following question:
+		<br></br>
+		Suppose you drop a short needle on a ruled paper – what is the probability that the needle comes to lie in a position where it crosses one of the lines?
+		<br></br>
+		<div id="eq1"><b><font color="red" size="4px">Probability (p) : (2 / π) * (l / d)</font></b></div>
+		<br></br>
+		A short needle is a needle whose length (l) is smaller than the distance between two parallel lines on the ruler (d). The probability depends on the 
+		ratio – l / d. Since the length is smaller than the distance, the needle will cross only one line on the ruler.
+		</p>
+		<p>
+		So, if I drop N needles and C out of them cross a line, my probability is C / N. Replacing and re-structuring the above equation we get:
+		<br></br>
+		<div id="eq2"><b><font color="red" size="4px"> π = 2 * (l / d) * (N / C)</font></b></div>
+		<br></br>
+		This method is a type of Monte Carlo methods. 
+		</p>
+		<p>
+		The value of π is an approximation and the success of this method depends on two factors:
+		<br>
+		<ol>
+			<li>
+			The ratio (l / d): In 1901, Italian mathematician Mario Lazzarini dropped a needle 3408 times and got success 1808 times. He chose (l / d) ratio as (5 / 6). 
+			The experiment yielded an approximation of  π correct to six digits – 3.1415929.
+			</li>
+			<br>
+			<li>
+			Number of runs: More trials will yield better approximations.
+			</li>
+	    </ol>
+		</p>
+	</div>
+	
+	</div>
 
-<p>This method is a type of Monte Carlo methods. The value of π is an approximation and the success of this method depends on two factors:</p>
 
-<p>The ratio (l / d): In 1901, Italian mathematician Mario Lazzarini dropped a needle 3408 times and got success 1808 times. He chose (l / d) ratio as (5 / 6). The experiment yielded an approximation of π correct to six digits – 3.1415929.</p>
+	
+</body>
 
-<p>Number of runs: More trials will yield better approximations.</p>
+<script type="text/javascript">
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/RishiBawdekar/how-to-estimate-pi-by-buffon-needle-experiment">How-to-estimate-pi-by-buffon-needle-experiment</a> is maintained by <a href="https://github.com/RishiBawdekar">RishiBawdekar</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
-
-    </section>
-
-  
-  </body>
+    var distance = 50;
+	var startpos = 50;
+	var addToStart = 50;
+	var ys = [50, 100, 150, 200, 250];
+	//console.log(ys);
+	var canvas = document.getElementById("buffoncanvas").getContext("2d");
+	for (i = 0; i < 5; i++)
+	{
+	    canvas.beginPath();
+		canvas.moveTo(0, startpos);
+		canvas.lineTo(300, startpos);
+		canvas.stroke();
+		startpos += addToStart;
+	}
+	var minAngle = 0;
+	var maxAngle = Math.PI * 2;
+	var count = 0;
+	var pinhistory = [];
+	
+	function BeginExperiment ()
+	{
+		var NoOfpins = document.getElementById("trials").options[document.getElementById("trials").selectedIndex].value;
+		if (NoOfpins == 0) {alert("Please select number of pins."); return}
+		pinhistory.push(Number(NoOfpins));
+		//var NoOfpins = 10000;
+		//console.log("minAngle: " + minAngle);
+		//console.log("maxAngle: " + maxAngle);	
+		var canvaspins = document.getElementById("buffoncanvas").getContext("2d");
+		var canvascir = document.getElementById("buffoncanvas").getContext("2d");
+		document.getElementById("buffoncanvas").getContext("2d").strokeStyle="#FF0000";
+		document.getElementById("buffoncanvas").getContext("2d").lineWidth=2;
+		//var randangle = Math.PI / 3;
+		var pinlength = document.getElementById("pinlen").value.trim();
+	    if (pinlength == "")  {alert("Please enter length of pin <= 50."); return}
+		if (pinlength > "50") {alert("Length of pin should be less or equal to 50."); return}
+		for (i = 0; i < NoOfpins; i++)
+		{
+			var randangle = Math.random()*(maxAngle - minAngle + 1) + minAngle; // generate random angles between 0 and 360 in degree
+			//console.log("Angle in degree is " + randangle);
+			var randx1 = Math.floor(Math.random()*(275 - 25 + 1) + 25);
+			var randy1 = Math.floor(Math.random()*(275 - 25 + 1) + 25);
+			//console.log("Pin origin is (" + randx1 + "," + randy1 + ")");
+			var randx2 = randx1 + Math.floor(pinlength * Math.sin(randangle));
+			var randy2 = randy1 + Math.floor(pinlength * Math.cos(randangle));
+			//console.log("sine of " + randangle + ": " + Math.sin(randangle));
+			//console.log("cos  of " + randangle + ": " + Math.cos(randangle));
+			//console.log("Pin destination is (" + randx2 + "," + randy2 + ")");
+			canvaspins.beginPath();
+			canvaspins.moveTo(randx1, randy1); // generate random x and y
+			canvaspins.lineTo(randx2, randy2); // randx2 = rcos and randy2 = rsin
+			canvaspins.stroke();
+			canvascir.arc(randx1, randy1, 2, minAngle, maxAngle);
+			canvascir.fill();
+			var miny = Math.min(randy1, randy2);
+			var maxy = Math.max(randy1, randy2);
+			//console.log(slope);
+			for (j = 0; j < 5; j++)
+			{
+				if ((miny <= ys[j]) && (ys[j] <= maxy))
+				{
+					//console.log("intersection");
+					count++;
+				}
+			}
+		}
+		var totalpins = Sum(pinhistory);
+		//console.log(totalpins);
+		var probability = count / totalpins;
+		//console.log("probability: " + probability);
+		var pie = (2 * Number(pinlength)) / (probability * distance);
+		//console.log("calpie: " + pie);
+		//console.log("pie: " + Math.PI);
+		var error = ((Math.abs(Math.PI - pie) / Math.PI) * 100).toFixed(2);
+		//console.log("Error: " + error + " %");
+		document.getElementById("pins").innerHTML = "Total number of pins: " + totalpins;
+		document.getElementById("calpie").innerHTML = "Calculated value of pi: " + pie;
+		document.getElementById("Pi").innerHTML =  "Exact value of pi: " + Math.PI;
+		document.getElementById("perer").innerHTML = "Percentage error: " + error;
+		document.getElementById("lByd").innerHTML = "(l / d) ratio: " + Number(pinlength) / distance;
+	}
+	
+	function CloseOverLay()
+	{
+		document.getElementById("overlay").style.display = "none";
+		document.getElementById("popup").style.display = "none";
+	}
+	
+	function Sum(array) 
+	{
+		var total = 0;
+		for (k = 0; k < array.length; k++)
+		{
+			total += array[k];
+		}
+		return total
+	}
+	
+	$(document).keyup(function(e) 
+	{
+		// look for window.event in case event isn't passed in
+		e = e || window.event;
+		if (e.keyCode == 13)
+		{
+			//alert("Enter key is pressed!");
+			//GetProj();
+			BeginExperiment();
+		}
+    });
+	
+	
+</script>
 </html>
