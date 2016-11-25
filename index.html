@@ -124,29 +124,21 @@
 		var NoOfpins = document.getElementById("trials").options[document.getElementById("trials").selectedIndex].value;
 		if (NoOfpins == 0) {alert("Please select number of pins."); return}
 		pinhistory.push(Number(NoOfpins));
-		//var NoOfpins = 10000;
-		//console.log("minAngle: " + minAngle);
-		//console.log("maxAngle: " + maxAngle);	
 		var canvaspins = document.getElementById("buffoncanvas").getContext("2d");
 		var canvascir = document.getElementById("buffoncanvas").getContext("2d");
 		document.getElementById("buffoncanvas").getContext("2d").strokeStyle="#FF0000";
 		document.getElementById("buffoncanvas").getContext("2d").lineWidth=2;
-		//var randangle = Math.PI / 3;
 		var pinlength = document.getElementById("pinlen").value.trim();
-	    if (pinlength == "")  {alert("Please enter length of pin <= 50."); return}
-		if (pinlength > "50") {alert("Length of pin should be less or equal to 50."); return}
+	        if (pinlength == "")  {alert("Please enter length of pin <= 50."); return}
+		if (Number(pinlength) > 50) {alert("Length of pin should be less or equal to 50."); return}
+		if (Number(pinlength) == 0) {alert("Length of pin cannot be zero!."); return}
 		for (i = 0; i < NoOfpins; i++)
 		{
 			var randangle = Math.random()*(maxAngle - minAngle + 1) + minAngle; // generate random angles between 0 and 360 in degree
-			//console.log("Angle in degree is " + randangle);
 			var randx1 = Math.floor(Math.random()*(275 - 25 + 1) + 25);
 			var randy1 = Math.floor(Math.random()*(275 - 25 + 1) + 25);
-			//console.log("Pin origin is (" + randx1 + "," + randy1 + ")");
 			var randx2 = randx1 + Math.floor(pinlength * Math.sin(randangle));
 			var randy2 = randy1 + Math.floor(pinlength * Math.cos(randangle));
-			//console.log("sine of " + randangle + ": " + Math.sin(randangle));
-			//console.log("cos  of " + randangle + ": " + Math.cos(randangle));
-			//console.log("Pin destination is (" + randx2 + "," + randy2 + ")");
 			canvaspins.beginPath();
 			canvaspins.moveTo(randx1, randy1); // generate random x and y
 			canvaspins.lineTo(randx2, randy2); // randx2 = rcos and randy2 = rsin
@@ -155,25 +147,18 @@
 			canvascir.fill();
 			var miny = Math.min(randy1, randy2);
 			var maxy = Math.max(randy1, randy2);
-			//console.log(slope);
 			for (j = 0; j < 5; j++)
 			{
 				if ((miny <= ys[j]) && (ys[j] <= maxy))
 				{
-					//console.log("intersection");
 					count++;
 				}
 			}
 		}
 		var totalpins = Sum(pinhistory);
-		//console.log(totalpins);
 		var probability = count / totalpins;
-		//console.log("probability: " + probability);
 		var pie = (2 * Number(pinlength)) / (probability * distance);
-		//console.log("calpie: " + pie);
-		//console.log("pie: " + Math.PI);
 		var error = ((Math.abs(Math.PI - pie) / Math.PI) * 100).toFixed(2);
-		//console.log("Error: " + error + " %");
 		document.getElementById("pins").innerHTML = "Total number of pins: " + totalpins;
 		document.getElementById("calpie").innerHTML = "Calculated value of pi: " + pie;
 		document.getElementById("Pi").innerHTML =  "Exact value of pi: " + Math.PI;
@@ -203,11 +188,9 @@
 		e = e || window.event;
 		if (e.keyCode == 13)
 		{
-			//alert("Enter key is pressed!");
-			//GetProj();
 			BeginExperiment();
 		}
-    });
+        });
 	
 	
 </script>
